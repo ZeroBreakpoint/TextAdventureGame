@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "String.h"  // Used to include the header file
+#include "Game.h"
 #include <cstring>  // Used for correct functionality of the classic "C style" string functions (such as strcmp, strlen etc)
 #include <cctype>  //  Used for correct functionality of toupper() and tolower() functions
 #include <cstddef>  // Used for correct functionality of size_t

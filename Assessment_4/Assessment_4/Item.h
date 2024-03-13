@@ -6,6 +6,13 @@ class Item {
 public:
     virtual void Description() const;
     virtual void Use();
+    void setDescription(const string& descript);
+    Item();
+    ~Item();
+
+
+private:
+    string description;
 };
 
 

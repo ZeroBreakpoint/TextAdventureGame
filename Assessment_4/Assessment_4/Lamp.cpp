@@ -1,14 +1,26 @@
 #include "Lamp.h"
+#include "Item.h"
 #include <iostream>
 using namespace std;
 
-Lamp::Lamp() : turnedOn(false) {}
+Lamp::Lamp() : Item(), switchedOn(false) { }
+
+
 
 void Lamp::Description() const {
-    std::cout << "This is a lamp." << std::endl;
+    cout << "This is a lamp." << endl;
 }
 
 void Lamp::Use() {
-    turnedOn = !turnedOn;
-    cout << "The lamp is now " << (turnedOn ? "on." : "off.") << endl;
+    if (switchedOn) {
+        cout << "The lamp is already on." << endl;
+    }
+    else {
+        cout << "You turn on the lamp." << endl;
+        switchedOn = true;
+    }
+}
+
+Lamp::Lamp(const std::string& description, bool switchedOn)
+    : Item(description), switchedOn(switchedOn) {
 }

@@ -1,19 +1,26 @@
 #include <iostream>
+#include <algorithm>
 #include "Game.h"
 #include "Room.h"
 #include "Player.h"
 #include "String.h"
+#include "Item.h"
+#include "BoxOfDonuts.h"
+#include "Lamp.h"
+#include "Cat.h"
 using namespace std;
 
 
 Game::Game() {
     static const string defaultDescription = "Default Description";
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 5; ++j) {
             rooms[i][j].setDescription(defaultDescription);
             rooms[i][j].setItem(nullptr);
         }
     }
+    this->playerRow = 2; // Starting location
+    this->playerCol = 2;
     player = new Player();
 }
 
@@ -55,18 +62,130 @@ void Game::Run() {
        / / /      \===|===/
        |/_/         \===/
                       =)" << endl;
+    String direction;
     while (true) {
-        // Print current room description
-        cout << "Current Room Description: ";
-        rooms[player->getCurrentRoomRow()][player->getCurrentRoomCol()].Description();
+        printMap();
+        cout << "Enter direction to move (North, East, South, West, or Quit to exit): ";
+        direction.ReadFromConsole();
+
+        // Convert the input direction to lowercase for case-insensitive comparison
+        direction.ToLower();
+
+        // Move the player based on the input direction
+        if (direction == "north") {
+            movePlayer(-1, 0); // Move north
+        }
+        else if (direction == "east") {
+            movePlayer(0, 1); // Move east
+        }
+        else if (direction == "south") {
+            movePlayer(1, 0); // Move south
+        }
+        else if (direction == "west") {
+            movePlayer(0, -1); // Move west
+        }
+        else if (direction == "quit") {
+            cout << "Quitting the game." << endl;
+            return;
+        }
+        else {
+            cout << "Invalid direction. Please enter North, East, South, West, or Quit." << endl;
+        }
+    }
+}
+
+void Game::printMap() const {
+    // Print the ASCII map
+    // This is just a simple example, you can replace it with your actual ASCII map
+    cout << "-------------------" << endl;
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            cout << " _____ ";
+        }
         cout << endl;
 
-        // Prompt user for input
-        cout << "Enter a direction to move (North, South, East, West): ";
-        string direction;
-        cin >> direction;
+        // Print the middle part of the rooms (including the player's position if applicable)
+        for (int j = 0; j < 5; ++j) {
+            if (i == this->playerRow && j == this->playerCol) {
+                cout << "|  P  |";
+            }
+            else {
+                cout << "|     |";
+            }
+        }
+        cout << endl;
 
-        // Move the player based on input
-        player->Move(direction);
+        // Print the bottom part of the rooms
+        for (int j = 0; j < 5; ++j) {
+            cout << "|_____|";
+        }
+        cout << endl;
+    }
+    cout << "-------------------------" << endl;
+}
+
+void Game::movePlayer(int rowOffset, int colOffset) {
+    // Calculate the new player position after moving
+    int newRow = playerRow + rowOffset;
+    int newCol = playerCol + colOffset;
+
+    // Check if the new position is within the grid bounds
+    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
+        // Move the player to the new room
+        // You may need additional logic to handle interactions with the room, if any
+        // For simplicity, this example just moves the player without interaction
+        playerRow = newRow;
+        playerCol = newCol;
+    }
+    else {
+        cout << "Cannot move in that direction. Please choose another direction." << endl;
+    }
+}
+
+
+void Game::initialiseRooms() {
+    // Initialize each room in the 5x5 grid with a description and an item
+    // You can customize the descriptions and items as needed
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            // Create instances of subclasses based on certain conditions
+            Item* item = nullptr; // Default item is nullptr
+
+            // Set positions for each item in the map
+            if (i == 1 && j == 1) {
+                item = new BoxOfDonuts("Box of Donuts description", 10); // Place BoxOfDonuts at position (1, 1)
+            }
+            else if (i == 2 && j == 2) {
+                item = new Cat("Cat description", true); // Place Cat at position (2, 2)
+            }
+            else if (i == 3 && j == 3) {
+                item = new Lamp("Lamp description", true); // Place Lamp at position (3, 3)
+            }
+            // Create a new room and assign the item
+            rooms[i][j] = Room("Room description", item);
+        }
+    }
+}
+
+
+void Game::printRoomDescription(int row, int col) const {
+    // Check if the row and column are within bounds
+    if (row >= 0 && row < 5 && col >= 0 && col < 5) {
+        // Get the room description
+        rooms[row][col].Description();
+
+        // Check if there is an item in the room
+        Item* item = rooms[row][col].getItem();
+        if (item != nullptr) {
+            // Output the item description
+            cout << "Item Description: ";
+            item->Description();
+        }
+        else {
+            cout << "No item in the room." << endl;
+        }
+    }
+    else {
+        cout << "Invalid room coordinates." << endl;
     }
 }

@@ -9,4 +9,5 @@ public:
     BoxOfDonuts();
     void Description() const override;
     void Use() override;
+    BoxOfDonuts(const string& description, int initialCount);
 };

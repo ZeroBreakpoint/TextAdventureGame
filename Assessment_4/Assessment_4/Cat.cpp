@@ -2,13 +2,23 @@
 #include <iostream>
 using namespace std;
 
-Cat::Cat() : purring(false) {}
+Cat::Cat() : Item(), purring(false) {}
+
 
 void Cat::Description() const {
-    cout << "This is a cat." << std::endl;
+    cout << "This is a cat." << endl;
 }
 
 void Cat::Use() {
-    purring = !purring;
-    cout << "The cat is now " << (purring ? "purring." : "not purring.") << endl;
+    if (purring) {
+        cout << "The cat is already purring." << endl;
+    }
+    else {
+        cout << "You pat the cat, and it starts purring." << endl;
+        purring = true;
+    }
+}
+
+Cat::Cat(const string& description, bool purring)
+{
 }

@@ -1,14 +1,29 @@
 #include "BoxOfDonuts.h"
 #include <iostream>
-using namespace std;
 
-BoxOfDonuts::BoxOfDonuts() : count(12) {}
+
+
+BoxOfDonuts::BoxOfDonuts()
+{
+}
+
+BoxOfDonuts::BoxOfDonuts(const string& description, int initialCount)
+    : Item(description), count(initialCount) {
+
+}
+
+
 
 void BoxOfDonuts::Description() const {
-    cout << "This is a box of donuts." << endl;
+    cout << "This is a box of donuts with " << count << " donuts." << std::endl;
 }
 
 void BoxOfDonuts::Use() {
-    cout << "You eat one donut from the box!" << endl;
-    count--;
+    if (count > 0) {
+        cout << "You eat one donut from the box!" << std::endl;
+        count--;
+    }
+    else {
+        cout << "The box is empty." << std::endl;
+    }
 }

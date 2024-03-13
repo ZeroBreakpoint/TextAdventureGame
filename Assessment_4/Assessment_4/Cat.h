@@ -9,6 +9,7 @@ public:
     Cat();
     void Description() const override;
     void Use() override;
+    Cat(const string& description, bool purring);
 };
 
 
