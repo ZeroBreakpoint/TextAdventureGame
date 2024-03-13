@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 
+Room::Room() : description("Default Description"), item(nullptr) {
+}
+
 Room::Room(string descript, Item* item) : description(descript), item(item) {}
 
 Room::~Room() {
@@ -11,4 +14,23 @@ Room::~Room() {
 
 void Room::Description() const {
     cout << description << endl;
+}
+
+
+string Room::getDescription() const {
+    return description;
+}
+
+
+Item* Room::getItem() const {
+    return item;
+}
+
+
+void Room::setDescription(const string& descript) {
+    description = descript;
+}
+
+void Room::setItem(Item* item) {
+    this->item = item;
 }

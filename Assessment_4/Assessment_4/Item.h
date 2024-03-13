@@ -1,10 +1,11 @@
 #pragma once
-#include <iostream> // For std::cout (for demonstration purposes)
+#include <iostream>
+using namespace std;
 
 class Item {
 public:
-    void Description() const;
-    void Use();
+    virtual void Description() const;
+    virtual void Use();
 };
 
 

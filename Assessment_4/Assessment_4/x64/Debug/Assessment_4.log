@@ -1,4 +1,11 @@
 ﻿  Assessment_4.cpp
+  BoxOfDonuts.cpp
+  Cat.cpp
+  Game.cpp
+  Item.cpp
+  Lamp.cpp
+  Player.cpp
+  Room.cpp
   String.cpp
   Generating Code...
-  Assessment_4.vcxproj -> D:\Introduction to C++\Assessment 4\Assessment_4\x64\Debug\Assessment_4.exe
+  Assessment_4.vcxproj -> F:\Introduction to C++\Assessment 4\Assessment_4\x64\Debug\Assessment_4.exe

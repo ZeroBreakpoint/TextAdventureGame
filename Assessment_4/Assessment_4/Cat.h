@@ -1,5 +1,14 @@
 #pragma once
-class Cat
-{
+#include "Item.h"
+
+class Cat : public Item {
+private:
+    bool purring;
+
+public:
+    Cat();
+    void Description() const override;
+    void Use() override;
 };
+
 

@@ -1,5 +1,4 @@
 #include "Item.h"
-using namespace std;
 
 void Item::Description() const {
     // Output a description of the item

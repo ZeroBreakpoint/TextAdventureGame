@@ -1,17 +1,15 @@
 #pragma once
 #include "Room.h"
 #include "Player.h"
-#include <vector> // Include for std::vector
+#include "String.h"
 
 class Game {
 private:
-    Room** rooms;
+    Room rooms[3][3];
     Player* player;
-    int rows;
-    int cols;
 
 public:
-    Game(int rows, int cols);
+    Game();
     ~Game();
     void Run();
 };
