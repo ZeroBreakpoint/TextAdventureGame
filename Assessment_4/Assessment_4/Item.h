@@ -1,5 +1,10 @@
 #pragma once
-class Item
-{
+#include <iostream> // For std::cout (for demonstration purposes)
+
+class Item {
+public:
+    void Description() const;
+    void Use();
 };
+
 
