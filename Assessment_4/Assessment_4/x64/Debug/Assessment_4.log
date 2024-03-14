@@ -1,2 +1,5 @@
 ﻿  Game.cpp
+F:\Introduction to C++\Assessment 4\Assessment_4\Assessment_4\Game.cpp(160,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Lamp.cpp
+  Generating Code...
   Assessment_4.vcxproj -> F:\Introduction to C++\Assessment 4\Assessment_4\x64\Debug\Assessment_4.exe

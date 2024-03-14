@@ -18,6 +18,7 @@ public:
     Item* getItem() const;
 
     // Setter methods
-    void setDescription(const std::string& desc);
+    void setDescription(const string& desc);
     void setItem(Item* item);
+    void EnterRoom() const;
 };

@@ -34,3 +34,10 @@ void Room::setDescription(const string& descript) {
 void Room::setItem(Item* item) {
     this->item = item;
 }
+
+void Room::EnterRoom() const {
+    cout << description << endl;
+    if (item != nullptr) {
+        item->Description();
+    }
+}

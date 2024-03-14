@@ -7,7 +7,8 @@ private:
 
 public:
     BoxOfDonuts();
-    void Description() const override;
-    void Use() override;
     BoxOfDonuts(const string& description, int initialCount);
+    virtual ~BoxOfDonuts();
+    virtual void Description() const override;
+    virtual void Use() override;
 };

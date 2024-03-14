@@ -9,6 +9,7 @@ public:
     void setDescription(const string& descript);
     Item();
     ~Item();
+    Item(const string& desc);
 
 
 private:

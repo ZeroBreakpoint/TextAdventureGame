@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-Cat::Cat() : Item(), purring(false) {}
+Cat::Cat() { }  // Cat header needs to inherit from item class (following boxofdonuts and lamp format)
 
 
 void Cat::Description() const {
@@ -19,6 +19,6 @@ void Cat::Use() {
     }
 }
 
-Cat::Cat(const string& description, bool purring)
-{
+Cat::Cat(const string& description, bool purring) : Item(description), purring(purring) {
 }
+

@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <cstdlib> // For rand and srand
+#include <ctime>   // For time
 #include "Game.h"
 #include "Room.h"
 #include "Player.h"
@@ -22,6 +24,16 @@ Game::Game() {
     this->playerRow = 2; // Starting location
     this->playerCol = 2;
     player = new Player();
+
+    BoxOfDonuts* boxOfDonuts = new BoxOfDonuts("Box of Donuts description", 10);
+    placeItem(rooms, boxOfDonuts);
+
+    Lamp* lamp = new Lamp("Lamp description", true);
+    placeItem(rooms, lamp);
+
+    Cat* cat = new Cat("Cat description", true);
+    placeItem(rooms, cat);
+
 }
 
 Game::~Game() {
@@ -136,6 +148,7 @@ void Game::movePlayer(int rowOffset, int colOffset) {
         // For simplicity, this example just moves the player without interaction
         playerRow = newRow;
         playerCol = newCol;
+        printRoomDescription(playerRow, playerCol);
     }
     else {
         cout << "Cannot move in that direction. Please choose another direction." << endl;
@@ -143,29 +156,24 @@ void Game::movePlayer(int rowOffset, int colOffset) {
 }
 
 
-void Game::initialiseRooms() {
-    // Initialize each room in the 5x5 grid with a description and an item
-    // You can customize the descriptions and items as needed
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            // Create instances of subclasses based on certain conditions
-            Item* item = nullptr; // Default item is nullptr
+void Game::placeItem(Room rooms[5][5], Item* item) {
+    srand(time(nullptr));
 
-            // Set positions for each item in the map
-            if (i == 1 && j == 1) {
-                item = new BoxOfDonuts("Box of Donuts description", 10); // Place BoxOfDonuts at position (1, 1)
-            }
-            else if (i == 2 && j == 2) {
-                item = new Cat("Cat description", true); // Place Cat at position (2, 2)
-            }
-            else if (i == 3 && j == 3) {
-                item = new Lamp("Lamp description", true); // Place Lamp at position (3, 3)
-            }
-            // Create a new room and assign the item
-            rooms[i][j] = Room("Room description", item);
+    // Randomly select a room until an empty one is found
+    while (true) {
+        // Generate random row and column indices
+        int row = rand() % 5;
+        int col = rand() % 5;
+
+        // Check if the selected room is empty
+        if (rooms[row][col].getItem() == nullptr) {
+            // Place the item in the room
+            rooms[row][col].setItem(item);
+            break; // Exit the loop
         }
     }
 }
+
 
 
 void Game::printRoomDescription(int row, int col) const {
@@ -180,6 +188,15 @@ void Game::printRoomDescription(int row, int col) const {
             // Output the item description
             cout << "Item Description: ";
             item->Description();
+
+            // Prompt the player to use the item
+            cout << "Do you want to use this item? (Yes/No): ";
+            String response;
+            response.ReadFromConsole();
+            response.ToLower();
+            if (response == "yes") {
+                item->Use();
+            }
         }
         else {
             cout << "No item in the room." << endl;
@@ -189,3 +206,27 @@ void Game::printRoomDescription(int row, int col) const {
         cout << "Invalid room coordinates." << endl;
     }
 }
+
+void Game::EnterCurrentRoom() {
+    Room& currentRoom = rooms[playerRow][playerCol];
+    // Enter the current room
+
+    currentRoom.Description();
+    Item* item = currentRoom.getItem();
+    if (item != nullptr) {
+        cout << "Item Description: ";
+        item->Description();
+    }
+    else {
+        cout << "No item in the room." << endl;
+    }
+}
+
+void Game::ClearScreen() {
+#ifdef _WIN32
+    system("CLS");
+#else
+    system("clear");
+#endif
+}
+
