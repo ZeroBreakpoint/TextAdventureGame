@@ -25,6 +25,5 @@ Item::Item(const string& desc)
 }
 
 void Item::Use() {
-    // Logic for using the item
-    cout << "The item is being used." << endl;
+    
 }

@@ -19,16 +19,17 @@ BoxOfDonuts::~BoxOfDonuts()
 
 
 void BoxOfDonuts::Description() const {
-    cout << "This is a box of donuts with " << count << " donuts." << endl;
+    cout << "A box of donuts with " << count << " donuts." << endl;
 }
 
 void BoxOfDonuts::Use() {
     if (count > 0) {
-        cout << "You eat one donut from the box!" << endl;
+        cout << "You ate one donut from the box!" << endl;
         count--;
         cout << "There are now " << count << " donuts in the box " << endl;
     }
     else {
-        cout << "The box is empty." << endl;
+        cout << "You can't eat anymore donuts, the box is empty" << endl;
     }
+    
 }

@@ -5,7 +5,7 @@
 
 class Game {
 private:
-    Room rooms[5][5];
+    Room rooms[3][3];
     Player* player;
     int playerRow;    // Player's row position in the room array
     int playerCol;    // Player's column position in the room array
@@ -16,10 +16,8 @@ public:
     void Run();
     void printMap() const;
     void movePlayer(int rowOffset, int colOffset);
-    void printRoomDescription(int row, int col) const;
+    void printRoomDescription(int row, int col);
     void ClearScreen();
-    void initialiseRooms();
-    void EnterCurrentRoom();
-    void placeItem(Room rooms[5][5], Item* item);
+    void placeItem(Room rooms[3][3], Item* item);
 };
 

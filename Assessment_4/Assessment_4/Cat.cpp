@@ -2,11 +2,11 @@
 #include <iostream>
 using namespace std;
 
-Cat::Cat() { }  // Cat header needs to inherit from item class (following boxofdonuts and lamp format)
+Cat::Cat() { }  
 
 
 void Cat::Description() const {
-    cout << "This is a cat." << endl;
+    cout << "A bengal cat." << endl;
 }
 
 void Cat::Use() {

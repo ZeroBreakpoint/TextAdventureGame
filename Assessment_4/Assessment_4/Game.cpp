@@ -14,24 +14,24 @@ using namespace std;
 
 
 Game::Game() {
-    static const string defaultDescription = "Default Description";
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
+    static const string defaultDescription = "Room Description";
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
             rooms[i][j].setDescription(defaultDescription);
             rooms[i][j].setItem(nullptr);
         }
     }
-    this->playerRow = 2; // Starting location
-    this->playerCol = 2;
+    this->playerRow = 1; // Player Starting location
+    this->playerCol = 0;
     player = new Player();
 
-    BoxOfDonuts* boxOfDonuts = new BoxOfDonuts("Box of Donuts description", 10);
+    BoxOfDonuts* boxOfDonuts = new BoxOfDonuts("Box of Donuts description", 3);
     placeItem(rooms, boxOfDonuts);
 
-    Lamp* lamp = new Lamp("Lamp description", true);
+    Lamp* lamp = new Lamp("Lamp description", false);
     placeItem(rooms, lamp);
 
-    Cat* cat = new Cat("Cat description", true);
+    Cat* cat = new Cat("Cat description", false);
     placeItem(rooms, cat);
 
 }
@@ -74,10 +74,11 @@ void Game::Run() {
        / / /      \===|===/
        |/_/         \===/
                       =)" << endl;
+
     String direction;
     while (true) {
         printMap();
-        cout << "Enter direction to move (North, East, South, West, or Quit to exit): ";
+        cout << "Enter a direction to move to a new room (North, East, South, West) or 'Book' to open spellbook & 'Q' to Quit: ";
         direction.ReadFromConsole();
 
         // Convert the input direction to lowercase for case-insensitive comparison
@@ -96,45 +97,65 @@ void Game::Run() {
         else if (direction == "west") {
             movePlayer(0, -1); // Move west
         }
-        else if (direction == "quit") {
+        else if (direction == "book") {
+            player->OpenSpellBook(); // Open the player's spell book
+            // After opening the spell book, prompt the user to search for a known spell
+            cout << "\nEnter the name of the spell you want to search for: ";
+
+            String spell;
+            spell.ReadFromConsole();
+
+
+            // Perform binary search on the player's spell book
+            if (player->FindSpell(spell)) {
+                cout << "You know the '" << spell << "' spell." << endl;
+            }
+            else {
+                cout << "You do not know the '" << spell << "' spell." << endl;
+            }
+        }
+        else if (direction == "q") {
             cout << "Quitting the game." << endl;
             return;
         }
         else {
-            cout << "Invalid direction. Please enter North, East, South, West, or Quit." << endl;
+            cout << "Invalid direction. Please enter North, East, South, West, or Q to exit." << endl;
         }
     }
 }
+
 
 void Game::printMap() const {
     // Print the ASCII map
-    // This is just a simple example, you can replace it with your actual ASCII map
-    cout << "-------------------" << endl;
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            cout << " _____ ";
-        }
-        cout << endl;
-
-        // Print the middle part of the rooms (including the player's position if applicable)
-        for (int j = 0; j < 5; ++j) {
-            if (i == this->playerRow && j == this->playerCol) {
-                cout << "|  P  |";
+    // Print the top part of the rooms
+        cout << "-----------------------------------" << endl;
+        for (int i = 0; i < 3; ++i) {
+            for (int j = 0; j < 3; ++j) {
+                cout << " _____ ";
             }
-            else {
-                cout << "|     |";
-            }
-        }
-        cout << endl;
+            cout << endl;
 
-        // Print the bottom part of the rooms
-        for (int j = 0; j < 5; ++j) {
-            cout << "|_____|";
+            // Print the middle part of the rooms (including the player's position if applicable)
+            for (int j = 0; j < 3; ++j) {
+                if (i == this->playerRow && j == this->playerCol) {
+                    cout << "|  P  |";
+                }
+                else {
+                    cout << "|     |";
+                }
+            }
+            cout << endl;
+
+            // Print the bottom part of the rooms
+            for (int j = 0; j < 3; ++j) {
+                cout << "|_____|";
+            }
+            cout << endl;
         }
-        cout << endl;
-    }
-    cout << "-------------------------" << endl;
+
+    cout << "\n-----------------------------------" << endl;
 }
+
 
 void Game::movePlayer(int rowOffset, int colOffset) {
     // Calculate the new player position after moving
@@ -142,13 +163,16 @@ void Game::movePlayer(int rowOffset, int colOffset) {
     int newCol = playerCol + colOffset;
 
     // Check if the new position is within the grid bounds
-    if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5) {
+    if (newRow >= 0 && newRow < 3 && newCol >= 0 && newCol < 3) {
         // Move the player to the new room
         // You may need additional logic to handle interactions with the room, if any
         // For simplicity, this example just moves the player without interaction
+
         playerRow = newRow;
         playerCol = newCol;
+
         printRoomDescription(playerRow, playerCol);
+
     }
     else {
         cout << "Cannot move in that direction. Please choose another direction." << endl;
@@ -156,39 +180,41 @@ void Game::movePlayer(int rowOffset, int colOffset) {
 }
 
 
-void Game::placeItem(Room rooms[5][5], Item* item) {
+void Game::placeItem(Room rooms[3][3], Item* item) {
     srand(time(nullptr));
 
     // Randomly select a room until an empty one is found
     while (true) {
         // Generate random row and column indices
-        int row = rand() % 5;
-        int col = rand() % 5;
+        int row = rand() % 3;
+        int col = rand() % 3;
 
-        // Check if the selected room is empty
-        if (rooms[row][col].getItem() == nullptr) {
-            // Place the item in the room
+        // Check if the selected room is empty (and also isn't player starting location)
+        if (rooms[row][col].getItem() == nullptr && !(row == 1 && col == 0)) {
             rooms[row][col].setItem(item);
-            break; // Exit the loop
+            break;
         }
     }
 }
 
 
 
-void Game::printRoomDescription(int row, int col) const {
+void Game::printRoomDescription(int row, int col){
     // Check if the row and column are within bounds
-    if (row >= 0 && row < 5 && col >= 0 && col < 5) {
-        // Get the room description
-        rooms[row][col].Description();
+    if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+
+        playerRow = row;
+        playerCol = col;
+        printMap();
+
 
         // Check if there is an item in the room
         Item* item = rooms[row][col].getItem();
         if (item != nullptr) {
-            // Output the item description
+            // Room has an item
+            cout << "Room description: There is an item in this room!" << endl;
             cout << "Item Description: ";
             item->Description();
-
             // Prompt the player to use the item
             cout << "Do you want to use this item? (Yes/No): ";
             String response;
@@ -197,28 +223,15 @@ void Game::printRoomDescription(int row, int col) const {
             if (response == "yes") {
                 item->Use();
             }
+            if (response == "no")
+            {
+                cout <<"Item not used." << endl;
+            }
         }
         else {
-            cout << "No item in the room." << endl;
+            // Room is empty
+            cout << "Room description: Nothing but cobwebs in this room." << endl;
         }
-    }
-    else {
-        cout << "Invalid room coordinates." << endl;
-    }
-}
-
-void Game::EnterCurrentRoom() {
-    Room& currentRoom = rooms[playerRow][playerCol];
-    // Enter the current room
-
-    currentRoom.Description();
-    Item* item = currentRoom.getItem();
-    if (item != nullptr) {
-        cout << "Item Description: ";
-        item->Description();
-    }
-    else {
-        cout << "No item in the room." << endl;
     }
 }
 

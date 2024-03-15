@@ -3,25 +3,27 @@
 #include <iostream>
 using namespace std;
 
-Lamp::Lamp() : Item(), switchedOn(false) { }
+Lamp::Lamp() {} /*: Item(), switchedOn(false) { }*/
 
 
 
 void Lamp::Description() const {
-    cout << "This is a lamp." << endl;
+    cout << "An old stained glass lamp." << endl;
 
 }
 
 void Lamp::Use() {
     if (switchedOn) {
-        cout << "You switched the lamp on." << endl;
+        cout << "You switched the lamp off." << endl;
+        switchedOn = false;
     }
     else {
-        cout << "You turned the lamp off." << endl;
-        
+        cout << "You turned the lamp on." << endl;
+        switchedOn = true;
     }
 }
 
 Lamp::Lamp(const string& description, bool switchedOn)
     : Item(description), switchedOn(switchedOn) {
+    
 }
