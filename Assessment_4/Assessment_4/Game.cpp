@@ -14,6 +14,7 @@ using namespace std;
 
 
 Game::Game() {
+    // Setting the default description for each room and initialising with no item
     static const string defaultDescription = "Room Description";
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
@@ -21,10 +22,15 @@ Game::Game() {
             rooms[i][j].setItem(nullptr);
         }
     }
-    this->playerRow = 1; // Player Starting location
+    // Setting the player's starting location and initialising the player
+    this->playerRow = 1; 
     this->playerCol = 0;
     player = new Player();
 
+    // Initialising the player's known spells
+    player->selectPlayerSpells();
+
+    // Creating and placing items in random rooms
     BoxOfDonuts* boxOfDonuts = new BoxOfDonuts("Box of Donuts description", 3);
     placeItem(rooms, boxOfDonuts);
 
@@ -36,13 +42,15 @@ Game::Game() {
 
 }
 
+// Cleaning up allocated memory
 Game::~Game() {
  
     delete player;
 }
 
 void Game::Run() {
-    // Game loop
+
+// Display ASCII picture for game intro
     cout << R"(
                                     /@
                      __        __   /\/
@@ -75,13 +83,19 @@ void Game::Run() {
        |/_/         \===/
                       =)" << endl;
 
+    cout << "\n\nPress Enter to continue" << endl;
+    cin.ignore(); 
+    cout << "Link approaches the Hyrule Castle on horseback, when he notices a mysterious door on the side of the castle.\nHe dismounts his horse and firmly pushes the door, revealing a hidden passage" << endl;
+    cout << "\nPress Enter to continue" << endl;
+    cin.ignore(); 
+
     String direction;
     while (true) {
+        // Display map and prompt player for input
         printMap();
         cout << "Enter a direction to move to a new room (North, East, South, West) or 'Book' to open spellbook & 'Q' to Quit: ";
+        // Converts the input entered to lowercase for case-insensitive comparison and to make use of my string utility class
         direction.ReadFromConsole();
-
-        // Convert the input direction to lowercase for case-insensitive comparison
         direction.ToLower();
 
         // Move the player based on the input direction
@@ -98,20 +112,21 @@ void Game::Run() {
             movePlayer(0, -1); // Move west
         }
         else if (direction == "book") {
-            player->OpenSpellBook(); // Open the player's spell book
-            // After opening the spell book, prompt the user to search for a known spell
-            cout << "\nEnter the name of the spell you want to search for: ";
+            while (true) {
+                player->OpenSpellBook(); // Open the player's spell book
+                // Prompting the player to search for a known spell
+                cout << "\nEnter the spell name to check if you know the spell or 'G' to return to the castle: ";
 
-            String spell;
-            spell.ReadFromConsole();
-
-
-            // Perform binary search on the player's spell book
-            if (player->FindSpell(spell)) {
-                cout << "You know the '" << spell << "' spell." << endl;
-            }
-            else {
-                cout << "You do not know the '" << spell << "' spell." << endl;
+                // Converts the input entered to lowercase for case-insensitive comparison and to make use of my string utility class
+                String spell;
+                spell.ReadFromConsole();
+                spell.ToLower();
+                
+                if (spell == "g") {
+                    break; // Exit the while loop and return to the game
+                }
+                // Perform binary search on the player's spells to check if the spell input is known
+                player->FindPlayerSpell(spell.CStr());
             }
         }
         else if (direction == "q") {
@@ -119,7 +134,7 @@ void Game::Run() {
             return;
         }
         else {
-            cout << "Invalid direction. Please enter North, East, South, West, or Q to exit." << endl;
+            cout << "Invalid input. Please enter North, East, South, West, Book or Q." << endl;
         }
     }
 }
@@ -138,7 +153,7 @@ void Game::printMap() const {
             // Print the middle part of the rooms (including the player's position if applicable)
             for (int j = 0; j < 3; ++j) {
                 if (i == this->playerRow && j == this->playerCol) {
-                    cout << "|  P  |";
+                    cout << "|  L  |";
                 }
                 else {
                     cout << "|     |";
@@ -162,15 +177,13 @@ void Game::movePlayer(int rowOffset, int colOffset) {
     int newRow = playerRow + rowOffset;
     int newCol = playerCol + colOffset;
 
-    // Check if the new position is within the grid bounds
+    // Check if the new position is within the 2d array bounds
     if (newRow >= 0 && newRow < 3 && newCol >= 0 && newCol < 3) {
         // Move the player to the new room
-        // You may need additional logic to handle interactions with the room, if any
-        // For simplicity, this example just moves the player without interaction
-
         playerRow = newRow;
         playerCol = newCol;
 
+        // Display the description of the new room
         printRoomDescription(playerRow, playerCol);
 
     }
@@ -181,15 +194,14 @@ void Game::movePlayer(int rowOffset, int colOffset) {
 
 
 void Game::placeItem(Room rooms[3][3], Item* item) {
-    srand(time(nullptr));
-
+    srand(static_cast<unsigned int>(time(nullptr)));
     // Randomly select a room until an empty one is found
     while (true) {
         // Generate random row and column indices
         int row = rand() % 3;
         int col = rand() % 3;
 
-        // Check if the selected room is empty (and also isn't player starting location)
+        // Check if the selected room is empty (and also isn't the player's starting location)
         if (rooms[row][col].getItem() == nullptr && !(row == 1 && col == 0)) {
             rooms[row][col].setItem(item);
             break;
@@ -200,7 +212,7 @@ void Game::placeItem(Room rooms[3][3], Item* item) {
 
 
 void Game::printRoomDescription(int row, int col){
-    // Check if the row and column are within bounds
+    // Check if the row and column are within the 2d array bounds
     if (row >= 0 && row < 3 && col >= 0 && col < 3) {
 
         playerRow = row;
@@ -215,7 +227,7 @@ void Game::printRoomDescription(int row, int col){
             cout << "Room description: There is an item in this room!" << endl;
             cout << "Item Description: ";
             item->Description();
-            // Prompt the player to use the item
+            // Prompt the player if they would like to use the item
             cout << "Do you want to use this item? (Yes/No): ";
             String response;
             response.ReadFromConsole();
@@ -233,13 +245,5 @@ void Game::printRoomDescription(int row, int col){
             cout << "Room description: Nothing but cobwebs in this room." << endl;
         }
     }
-}
-
-void Game::ClearScreen() {
-#ifdef _WIN32
-    system("CLS");
-#else
-    system("clear");
-#endif
 }
 

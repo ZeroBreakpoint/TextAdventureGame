@@ -3,11 +3,11 @@
 
 class Lamp : public Item {
 private:
-    bool switchedOn;
+    bool turnedOn;
 
 public:
     Lamp();
     void Description() const override;
     void Use() override;
-    Lamp(const string& description, bool switchedOn);
+    Lamp(const string& description, bool turnedOn);
 };

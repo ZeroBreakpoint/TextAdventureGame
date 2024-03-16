@@ -4,13 +4,12 @@
 
 
 
-BoxOfDonuts::BoxOfDonuts()
+BoxOfDonuts::BoxOfDonuts() : count(3)
 {
 }
 
 BoxOfDonuts::BoxOfDonuts(const string& description, int initialCount)
     : Item(description), count(initialCount) {
-    // Additional initialization code, if needed
 }
 
 BoxOfDonuts::~BoxOfDonuts()

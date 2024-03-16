@@ -17,7 +17,6 @@ public:
     void printMap() const;
     void movePlayer(int rowOffset, int colOffset);
     void printRoomDescription(int row, int col);
-    void ClearScreen();
     void placeItem(Room rooms[3][3], Item* item);
 };
 

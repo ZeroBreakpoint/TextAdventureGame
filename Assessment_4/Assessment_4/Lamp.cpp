@@ -3,7 +3,8 @@
 #include <iostream>
 using namespace std;
 
-Lamp::Lamp() {} /*: Item(), switchedOn(false) { }*/
+Lamp::Lamp() : turnedOn(false) {
+}
 
 
 
@@ -13,17 +14,17 @@ void Lamp::Description() const {
 }
 
 void Lamp::Use() {
-    if (switchedOn) {
+    if (turnedOn) {
         cout << "You switched the lamp off." << endl;
-        switchedOn = false;
+        turnedOn = false;
     }
     else {
         cout << "You turned the lamp on." << endl;
-        switchedOn = true;
+        turnedOn = true;
     }
 }
 
-Lamp::Lamp(const string& description, bool switchedOn)
-    : Item(description), switchedOn(switchedOn) {
+Lamp::Lamp(const string& description, bool turnedOn)
+    : Item(description), turnedOn(turnedOn) {
     
 }

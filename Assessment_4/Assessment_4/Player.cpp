@@ -94,3 +94,13 @@ void Player::selectPlayerSpells() {
     playerSpells.sort();
 }
 
+void Player::FindPlayerSpell(const string& spell) const
+{
+    if (binary_search(playerSpells.begin(), playerSpells.end(), spell)) {
+        cout << "You know the '" << spell << "' spell." << endl;
+    }
+    else {
+        cout << "You do not know the '" << spell << "' spell." << endl;
+    }
+}
+

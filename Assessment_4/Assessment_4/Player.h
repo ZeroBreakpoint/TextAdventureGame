@@ -11,7 +11,6 @@ private:
     int currentRoomRow;
     int currentRoomCol;
     void populateSpellbook();
-    void selectPlayerSpells();
 
 public:
     Player();
@@ -23,5 +22,7 @@ public:
     int getCurrentRoomCol() const;
     void OpenSpellBook() const;
     void ShowSpells() const;
+    void selectPlayerSpells();
+    void FindPlayerSpell(const std::string& spell) const;
     
 };

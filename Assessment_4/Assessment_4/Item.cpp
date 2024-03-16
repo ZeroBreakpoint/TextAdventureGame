@@ -4,8 +4,6 @@
 #include "Player.h"
 
 void Item::Description() const {
-    // Output a description of the item
-    cout << "This is an item." << endl;
 }
 
 void Item::setDescription(const string& descript) {

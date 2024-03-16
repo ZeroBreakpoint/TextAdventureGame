@@ -2,7 +2,8 @@
 #include <iostream>
 using namespace std;
 
-Cat::Cat() { }  
+Cat::Cat() : purring(false){ 
+}  
 
 
 void Cat::Description() const {
