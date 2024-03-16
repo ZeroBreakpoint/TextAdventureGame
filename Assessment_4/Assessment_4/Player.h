@@ -20,9 +20,9 @@ public:
     pair<int, int> getCurrentRoomPosition() const;
     int getCurrentRoomRow() const; // Getter for current room row
     int getCurrentRoomCol() const;
-    void OpenSpellBook() const;
-    void ShowSpells() const;
+    void openSpellBook() const;
+    void showSpells() const;
     void selectPlayerSpells();
-    void FindPlayerSpell(const std::string& spell) const;
+    void findPlayerSpell(const string& spell) const;
     
 };

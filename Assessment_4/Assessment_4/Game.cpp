@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm>
+#include <algorithm> // For binary search 
 #include <cstdlib> // For rand and srand
 #include <ctime>   // For time
 #include "Game.h"
@@ -113,7 +113,7 @@ void Game::Run() {
         }
         else if (direction == "book") {
             while (true) {
-                player->OpenSpellBook(); // Open the player's spell book
+                player->openSpellBook(); // Open the player's spell book
                 // Prompting the player to search for a known spell
                 cout << "\nEnter the spell name to check if you know the spell or 'G' to return to the castle: ";
 
@@ -126,7 +126,7 @@ void Game::Run() {
                     break; // Exit the while loop and return to the game
                 }
                 // Perform binary search on the player's spells to check if the spell input is known
-                player->FindPlayerSpell(spell.CStr());
+                player->findPlayerSpell(spell.CStr());
             }
         }
         else if (direction == "q") {

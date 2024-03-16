@@ -1,5 +1,5 @@
 #include "Room.h"
-#include "Item.h" // Assuming Item class is declared in Item.h
+#include "Item.h"
 #include <iostream>
 using namespace std;
 
@@ -9,7 +9,7 @@ Room::Room() : description("Default Description"), item(nullptr) {
 Room::Room(string descript, Item* item) : description(descript), item(item) {}
 
 Room::~Room() {
-    delete item; // Assuming ownership of the item is in the Room class
+    delete item;
 }
 
 void Room::Description() const {
@@ -26,19 +26,13 @@ Item* Room::getItem() const {
     return item;
 }
 
-
+// Sets the description of the room
 void Room::setDescription(const string& descript) {
     description = descript;
 }
 
+// Sets the item in the room
 void Room::setItem(Item* item) {
     this->item = item;
-}
-
-void Room::EnterRoom() const {
-    cout << description << endl;
-    if (item != nullptr) {
-        item->Description();
-    }
 }
 

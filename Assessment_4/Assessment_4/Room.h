@@ -1,9 +1,8 @@
 #pragma once
-#include "Item.h" // Assuming Item class is declared in Item.h
+#include "Item.h"
 #include <string>
 using namespace std;
 
-class Item;
 
 class Room {
 private:
@@ -17,8 +16,7 @@ public:
     string getDescription() const;
     Item* getItem() const;
 
-    // Setter methods
+
     void setDescription(const string& desc);
     void setItem(Item* item);
-    void EnterRoom() const;
 };

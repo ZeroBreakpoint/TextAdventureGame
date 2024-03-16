@@ -11,15 +11,17 @@ Player::Player() {
     currentRoomRow = 0;
     currentRoomCol = 0;
 
+    // Populates the spellbook
     populateSpellbook();
 
+    // Selects known spells for the player
     selectPlayerSpells();
 }
 
 Player::~Player() {
 }
 
-
+// Searches for a spell in the spellbook (if needed)
 bool Player::FindSpell(string spell) {
     return binary_search(spells.begin(), spells.end(), spell);
 }
@@ -27,7 +29,7 @@ bool Player::FindSpell(string spell) {
 void Player::Move(const string& direction) {
     // Move the player based on the direction
     cout << "Moving " << direction << endl;
-    // Update player's current room position accordingly
+    // Updates the player's current room position based on the direction
     if (direction == "North") {
         if (currentRoomRow > 0)
             --currentRoomRow;
@@ -45,36 +47,37 @@ void Player::Move(const string& direction) {
             --currentRoomCol;
     }
 }
+
+// Returns the current room position of the player (as a pair of numbers)
 pair<int, int> Player::getCurrentRoomPosition() const {
-    // Return the current room position of the player
     return make_pair(currentRoomRow, currentRoomCol);
 }
 
+// Returns the current room row of the player
 int Player::getCurrentRoomRow() const {
-    // Return the current room row of the player
     return currentRoomRow;
 }
 
+// Returns the current room column of the player
 int Player::getCurrentRoomCol() const {
-    // Return the current room column of the player
     return currentRoomCol;
 }
-void Player::OpenSpellBook() const {
-    // Display the spell book content to the player
+
+// Display the spell book content to the player
+void Player::openSpellBook() const {
     cout << "The Spell Book contains: " << endl;
-    ShowSpells();
+    showSpells();
 }
 
-void Player::ShowSpells() const {
-    // Display all spells in the player's spell list
+// Display all spells in the spell list
+void Player::showSpells() const {
     for (const string& spell : spells) {
         cout << spell << endl;
     }
 }
 
-
+// Populates the spellbook with spells
 void Player::populateSpellbook() {
-    // Add spells to the spellbook
     spells.push_back("fairy");
     spells.push_back("fire");
     spells.push_back("thunder");
@@ -83,18 +86,20 @@ void Player::populateSpellbook() {
     spells.push_back("ascend");
     spells.push_back("recall");
     spells.push_back("ultrahand");
-    spells.sort();
+    spells.sort();  // Sorts the spells aphabetically (for the binary search)
 }
 
+// Selects knwon spells for the player
 void Player::selectPlayerSpells() {
     playerSpells.push_back("fire");
     playerSpells.push_back("water");
     playerSpells.push_back("wind");
     playerSpells.push_back("thunder");
-    playerSpells.sort();
+    playerSpells.sort();  // Sorts the player's spells alphabetically (for the binary search)
 }
 
-void Player::FindPlayerSpell(const string& spell) const
+// Checks if the player knows a specific spell
+void Player::findPlayerSpell(const string& spell) const
 {
     if (binary_search(playerSpells.begin(), playerSpells.end(), spell)) {
         cout << "You know the '" << spell << "' spell." << endl;

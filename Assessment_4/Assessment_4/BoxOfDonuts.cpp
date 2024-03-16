@@ -12,14 +12,11 @@ BoxOfDonuts::BoxOfDonuts(const string& description, int initialCount)
     : Item(description), count(initialCount) {
 }
 
-BoxOfDonuts::~BoxOfDonuts()
-{
-}
-
 
 void BoxOfDonuts::Description() const {
     cout << "A box of donuts with " << count << " donuts." << endl;
 }
+
 
 void BoxOfDonuts::Use() {
     if (count > 0) {
