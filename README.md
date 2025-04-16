@@ -21,9 +21,10 @@ This project is my C++ console-based text adventure game created for an assessme
 - Demonstrates **multiple levels of inheritance** via `Item -> DerivedItems`.
 - Clean modular structure: `Game`, `Room`, `Player`, `Item`, `String` classes.
 - Emphasis on **encapsulation** and **polymorphism** through virtual `Use()` and `Description()` methods.
+- Follows a provided UML diagram.
 
 ## Custom String Class
-A fully custom `String` class is used instead of `std::string` for:
+A fully custom `String` class (customstringutilityclass project) is used instead of `std::string` for:
 - Input handling
 - Case-insensitive comparisons
 - Searching (`Find`, `Replace`, etc.)
@@ -38,14 +39,3 @@ Players can view the list via the book command.
 Input a spell name to check if it's known using a binary search.
 
 The spell system demonstrates efficient searching and use of the custom string class for interaction.
-
-## This project demonstrates:
-
-Inheritance and virtual function overriding
-
-Text parsing with a custom-built string class
-
-Game state handling via encapsulated class structures
-
-Binary search applied to player state for efficiency
-
